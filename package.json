@@ -6,9 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": " cd lib & node seeds"
   },
   "dependencies": {
+    "bcrypt": "^5.1.0",
+    "mongoose": "^6.7.1",
     "next": "13.0.2",
     "react": "18.2.0",
     "react-dom": "18.2.0"
