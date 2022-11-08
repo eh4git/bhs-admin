@@ -1,10 +1,11 @@
 import Head from "next/head";
 import Image from "next/image";
 import dbConnect from "../lib/connection";
-import { Product } from "../models";
+import { Category, Product } from "../models";
 import styles from "../styles/Home.module.css";
 
-export default function Home() {
+export default function Home({ products }) {
+  console.log(products);
   return (
     <div className={styles.container}>
       <Head>
@@ -13,17 +14,38 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {}
+      {products.map(product => (
+        <div>
+          <h2>{product.name}</h2>
+          <Image
+            src="https://picsum.photos/200/300"
+            width={300}
+            height={200}
+            alt={product.image}
+          />
+          <h5>{product.image}</h5>
+          <p>{product.price}</p>
+          <p>{product.quantity}</p>
+        </div>
+      ))}
     </div>
   );
 }
 
 export async function getServerSideProps() {
   await dbConnect();
-
+  const categoryData = await Category.find({});
+  console.log(categoryData);
   /* find all the data in our database */
-  const result = await Product.find({});
-  console.log(result);
-
-  return { props: { pets: [] } };
+  const productData = await Product.find({}).populate("category");
+  console.log(productData);
+  const products = productData.map(product => {
+    const prod = product.toObject();
+    prod._id = prod._id.toString();
+    prod.category._id = prod.category._id.toString();
+    prod.category.name = prod.category.name.toString();
+    return prod;
+  });
+  // console.log(products);
+  return { props: { products: products } };
 }
