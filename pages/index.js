@@ -1,11 +1,10 @@
 import Head from "next/head";
 import Image from "next/image";
-// import dbConnect from "../lib/connection";
 // import { Category, Product } from "../models";
 import styles from "../styles/Home.module.css";
 
 export default function Home({ products }) {
-  console.log(products);
+  // console.log(products);
   return (
     <div className={styles.container}>
       <Head>
@@ -14,7 +13,7 @@ export default function Home({ products }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>Home Page</h1>
-      {products.map(product => (
+      {products?.map(product => (
         <div key={product.name}>
           <h2>{product.name}</h2>
           <Image
@@ -32,20 +31,20 @@ export default function Home({ products }) {
   );
 }
 
-export async function getServerSideProps() {
-  // await dbConnect();
-  // const categoryData = await Category.find({});
-  // console.log(categoryData);
-  // /* find all the data in our database */
-  // const productData = await Product.find({}).populate("category");
-  // console.log(productData);
-  // const products = productData.map(product => {
-  //   const prod = product.toObject();
-  //   prod._id = prod._id.toString();
-  //   prod.category._id = prod.category._id.toString();
-  //   prod.category.name = prod.category.name.toString();
-  //   return prod;
-  // });
-  // console.log(products);
-  return { props: { products: [] } };
-}
+// export async function getServerSideProps() {
+//   await dbConnect();
+//   // const categoryData = await Category.find({});
+//   // console.log(categoryData);
+//   // /* find all the data in our database */
+//   // const productData = await Product.find({}).populate("category");
+//   // console.log(productData);
+//   // const products = productData.map(product => {
+//   //   const prod = product.toObject();
+//   //   prod._id = prod._id.toString();
+//   //   prod.category._id = prod.category._id.toString();
+//   //   prod.category.name = prod.category.name.toString();
+//   //   return prod;
+//   // });
+//   // console.log(products);
+//   return { props: { products: [] } };
+// }

@@ -1,8 +1,8 @@
 // const db = require("./connection");
 const mongoose = require("mongoose");
-const { User, Product, Category } = require("../models");
+const { User, Product, Category } = require("./models");
 const MONGODB_URI = process.env.MONGODB_URI;
-console.log(process.env.MONGODB_URI);
+// console.log(process.env.MONGODB_URI);
 mongoose.connect(MONGODB_URI).then(async mongoose => {
   await Category.deleteMany();
 

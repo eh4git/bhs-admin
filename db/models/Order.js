@@ -1,7 +1,6 @@
-import mongoose from "mongoose";
-
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
-// if (!mongoose.models.Order) {
+
 const orderSchema = new Schema({
   purchaseDate: {
     type: Date,
@@ -14,9 +13,8 @@ const orderSchema = new Schema({
     },
   ],
 });
-// console.log(mongoose);
+console.log("MONGOOSE MODELS-", mongoose.models?.Order);
 
 const Order = mongoose.models.Order || mongoose.model("Order", orderSchema);
-// }
 
 module.exports = Order;

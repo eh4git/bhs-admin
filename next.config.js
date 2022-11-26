@@ -9,23 +9,6 @@ const nextConfig = {
       },
     ],
   },
-  async headers() {
-    return [
-      {
-        source: "/api/graphql",
-        headers: [
-          {
-            key: "Access-Control-Request-Headers",
-            value: "*",
-          },
-          {
-            key: "SameSite",
-            value: "None",
-          },
-        ],
-      },
-    ];
-  },
 };
 
 module.exports = nextConfig;

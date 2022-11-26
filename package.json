@@ -10,15 +10,19 @@
     "seed": " cd lib & node seeds"
   },
   "dependencies": {
-    "apollo-server-micro": "^3.11.1",
-    "bcrypt": "^5.1.0",
+    "@apollo/client": "^3.7.1",
+    "@apollo/server": "^4.1.1",
+    "@as-integrations/next": "^1.1.0",
+    "@graphql-tools/schema": "^9.0.9",
     "graphql": "^16.6.0",
-    "micro": "^9.4.1",
-    "micro-cors": "^0.1.1",
+    "@hapi/iron": "6.0.0",
+    "cookie": "^0.4.1",
+    "deepmerge": "4.2.2",
     "mongoose": "^6.7.1",
     "next": "13.0.2",
     "next-graphql-server": "^0.10.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "uuid": "8.1.0"
   }
 }
