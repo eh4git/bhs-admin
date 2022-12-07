@@ -4,7 +4,9 @@ export const typeDefs = gql`
   type User {
     id: ID!
     email: String!
-    createdAt: Int!
+    firstName: String
+    lastName: String
+    password: String
   }
 
   input SignUpInput {
@@ -23,6 +25,13 @@ export const typeDefs = gql`
 
   type SignInPayload {
     user: User!
+  }
+
+  input UpdateUserInput {
+    email: String
+    firstName: String
+    lastName: String
+    password: String
   }
 
   type Product {
@@ -56,6 +65,7 @@ export const typeDefs = gql`
     signUp(input: SignUpInput!): SignUpPayload!
     signIn(input: SignInInput!): SignInPayload!
     signOut: Boolean!
+    updateUser(id: ID!, input: UpdateUserInput!): User
     newProduct(input: ProductInput!): Product
     updateProduct(id: ID!, input: ProductInput!): Product
     deleteProduct(id: ID!): String

@@ -5,6 +5,32 @@ import { GraphQLError } from "graphql";
 
 export const resolvers = {
   Query: {
+    async user(
+      _parent,
+      args,
+      {
+        context: {
+          models: { User },
+        },
+      }
+    ) {
+      const user = User.findById(args.id);
+
+      return user;
+    },
+    async users(
+      _parent,
+      args,
+      {
+        context: {
+          models: { User },
+        },
+      }
+    ) {
+      const user = User.find();
+
+      return user;
+    },
     async viewer(_root, _args, context, _info) {
       try {
         const session = await getLoginSession(context.req);
@@ -58,8 +84,16 @@ export const resolvers = {
     },
   },
   Mutation: {
-    async signUp(_parent, args, _context, _info) {
-      const user = await createUser(args.input);
+    async signUp(
+      _parent,
+      args,
+      {
+        context: {
+          models: { User },
+        },
+      }
+    ) {
+      const user = await User.create(args.input);
       return { user };
     },
     async signIn(_parent, args, context, _info) {
@@ -81,6 +115,27 @@ export const resolvers = {
     async signOut(_parent, _args, context, _info) {
       removeTokenCookie(context.res);
       return true;
+    },
+    async updateUser(
+      _parent,
+      { id, input: { email, password, firstName, lastName } },
+      {
+        context: {
+          models: { User },
+        },
+      }
+    ) {
+      const user = await User.findOne({ _id: id });
+      console.log("USER!---", user);
+
+      user.email = email || user.email;
+      user.password = password || user.password;
+      user.firstName = firstName || user.firstName;
+      user.lastName = lastName || user.lastName;
+
+      const updatedUser = await user.save();
+
+      return updatedUser;
     },
     newProduct: async (
       _,
@@ -116,7 +171,7 @@ export const resolvers = {
       //   throw new Error("Product not found");
       // }
 
-      let product = await Product.findOneAndUpdate({ _id: id }, input, {
+      let product = await Product.findByIdAndUpdate(id, input, {
         new: true,
       });
 
