@@ -27,9 +27,7 @@ const userSchema = new Schema({
 
 // set up pre-save middleware to create password
 userSchema.pre("save", async function (next) {
-  console.log("THIS!----", this);
   if (this.isNew || this.isModified("password")) {
-    console.log("THIS was modified!----", this.isModified("password"));
     const saltRounds = 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
   }

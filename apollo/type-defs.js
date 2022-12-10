@@ -58,7 +58,7 @@ export const typeDefs = gql`
     users: [User]!
     viewer: User
     product(id: ID!): Product!
-    products: [Product]!
+    products: [Product]
   }
 
   type Mutation {

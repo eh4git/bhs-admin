@@ -1,10 +1,35 @@
 import Head from "next/head";
 import Image from "next/image";
+import { gql, useQuery } from "@apollo/client";
 // import { Category, Product } from "../models";
 import styles from "../styles/Home.module.css";
 
-export default function Home({ products }) {
-  // console.log(products);
+// const ProductQuery = gql`
+//   query ProductQuery {
+//     products {
+//       _id
+//       category
+//       description
+//       image
+//       name
+//       price
+//       quantity
+//     }
+//   }
+// `;
+const ViewerQuery = gql`
+  query ViewerQuery {
+    viewer {
+      id
+      email
+    }
+  }
+`;
+
+export default function Home() {
+  const { data, loading, error } = useQuery(ViewerQuery);
+  // console.log(error);
+  // console.log(productData?.products);
   return (
     <div className={styles.container}>
       <Head>
@@ -13,20 +38,22 @@ export default function Home({ products }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>Home Page</h1>
-      {products?.map(product => (
-        <div key={product.name}>
-          <h2>{product.name}</h2>
-          <Image
-            src="https://picsum.photos/200/300"
-            width={300}
-            height={200}
-            alt={product.image}
-          />
-          <h5>{product.image}</h5>
-          <p>{product.price}</p>
-          <p>{product.quantity}</p>
-        </div>
-      ))}
+      {/* {!loading ||
+        (error &&
+          productData?.map(product => (
+            <div key={product.name}>
+              <h2>{product.name}</h2>
+              <Image
+                src="https://picsum.photos/200/300"
+                width={300}
+                height={200}
+                alt={product.image}
+              />
+              <h5>{product.image}</h5>
+              <p>{product.price}</p>
+              <p>{product.quantity}</p>
+            </div>
+          )))} */}
     </div>
   );
 }
