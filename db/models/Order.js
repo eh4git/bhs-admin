@@ -13,7 +13,7 @@ const orderSchema = new Schema({
     },
   ],
 });
-console.log("MONGOOSE MODELS-", mongoose.models?.Order);
+// console.log("MONGOOSE MODELS-", mongoose.models?.Order);
 
 const Order = mongoose.models.Order || mongoose.model("Order", orderSchema);
 
