@@ -1,10 +1,39 @@
 import Head from "next/head";
 import Image from "next/image";
+import { gql, useQuery } from "@apollo/client";
 // import { Category, Product } from "../models";
 import styles from "../styles/Home.module.css";
 
-export default function Home({ products }) {
-  // console.log(products);
+const ProductQuery = gql`
+  query ProductQuery {
+    products {
+      _id
+      category
+      description
+      image
+      name
+      price
+      quantity
+    }
+  }
+`;
+// const ViewerQuery = gql`
+//   query ViewerQuery {
+//     viewer {
+//       id
+//       email
+//     }
+//   }
+// `;
+
+export default function Home() {
+  const { data, loading, error } = useQuery(ProductQuery);
+  console.log(data);
+  console.log(loading);
+  console.log(error);
+
+  const productData = data?.products;
+  console.log(productData);
   return (
     <div className={styles.container}>
       <Head>
@@ -13,38 +42,21 @@ export default function Home({ products }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>Home Page</h1>
-      {products?.map(product => (
-        <div key={product.name}>
-          <h2>{product.name}</h2>
-          <Image
-            src="https://picsum.photos/200/300"
-            width={300}
-            height={200}
-            alt={product.image}
-          />
-          <h5>{product.image}</h5>
-          <p>{product.price}</p>
-          <p>{product.quantity}</p>
-        </div>
-      ))}
+      {!loading &&
+        productData?.map(product => (
+          <div key={product.name}>
+            <h2>{product.name}</h2>
+            <Image
+              src="https://picsum.photos/200/300"
+              width={300}
+              height={200}
+              alt={product.image}
+            />
+            <h5>{product.image}</h5>
+            <p>{product.price}</p>
+            <p>{product.quantity}</p>
+          </div>
+        ))}
     </div>
   );
 }
-
-// export async function getServerSideProps() {
-//   await dbConnect();
-//   // const categoryData = await Category.find({});
-//   // console.log(categoryData);
-//   // /* find all the data in our database */
-//   // const productData = await Product.find({}).populate("category");
-//   // console.log(productData);
-//   // const products = productData.map(product => {
-//   //   const prod = product.toObject();
-//   //   prod._id = prod._id.toString();
-//   //   prod.category._id = prod.category._id.toString();
-//   //   prod.category.name = prod.category.name.toString();
-//   //   return prod;
-//   // });
-//   // console.log(products);
-//   return { props: { products: [] } };
-// }
