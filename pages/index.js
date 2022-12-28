@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, useMutation } from "@apollo/client";
 // import { Category, Product } from "../models";
 import styles from "../styles/Home.module.css";
 
@@ -25,9 +25,23 @@ const ProductQuery = gql`
 //     }
 //   }
 // `;
+const updateProductMutation = gql`
+  mutation UpdateProduct($id: ID!, $product: ProductInput!) {
+    updateProduct(id: $id, input: $product) {
+      _id
+      category
+      description
+      image
+      name
+      price
+      quantity
+    }
+  }
+`;
 
 export default function Home() {
   const { data, loading, error } = useQuery(ProductQuery);
+  const [updateProduct] = useMutation(updateProductMutation);
   console.log(data);
   console.log(loading);
   console.log(error);
@@ -54,7 +68,51 @@ export default function Home() {
             />
             <h5>{product.image}</h5>
             <p>{product.price}</p>
-            <p>{product.quantity}</p>
+            <span>
+              <button
+                onClick={() =>
+                  updateProduct({
+                    variables: {
+                      id: product._id,
+                      product: {
+                        quantity: product.quantity - 1,
+                      },
+                    },
+                  })
+                }
+              >
+                -
+              </button>
+              <input
+                type="number"
+                onChange={e =>
+                  updateProduct({
+                    variables: {
+                      id: product._id,
+                      product: {
+                        quantity: parseInt(e.currentTarget.value),
+                      },
+                    },
+                  })
+                }
+                value={product.quantity}
+              />
+
+              <button
+                onClick={() =>
+                  updateProduct({
+                    variables: {
+                      id: product._id,
+                      product: {
+                        quantity: product.quantity + 1,
+                      },
+                    },
+                  })
+                }
+              >
+                +
+              </button>
+            </span>
           </div>
         ))}
     </div>
